@@ -70,13 +70,20 @@
 	"CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN", 
 	"WI", "MO", "AR", "OK", "KS", "LS", "VA"]
 		.forEach(function(d){ 
-			var low=Math.round(100*Math.random()), 
-				mid=Math.round(100*Math.random()), 
-				high=Math.round(100*Math.random());
-			sampleData[d]={low:d3.min([low,mid,high]), high:d3.max([low,mid,high]), 
-					avg:Math.round((low+mid+high)/3), color:d3.interpolate("#ffffcc", "#800026")(low/100)}; 
+			if(Math.round(100*Math.random()) > 50) {
+				var low=Math.round(50 + 50*Math.random()), 
+					mid=Math.round(50 + 50*Math.random()), 
+					high=Math.round(50 + 50*Math.random());
+				sampleData[d]={low:d3.min([low,mid,high]), high:d3.max([low,mid,high]), 
+						avg:Math.round((low+mid+high)/3), color:d3.interpolate("#FFFFFF", "#0015BC")((low/100))}; 
+			} else {
+				var low=Math.round(50*Math.random()), 
+					mid=Math.round(50*Math.random()), 
+					high=Math.round(50*Math.random());
+				sampleData[d]={low:d3.min([low,mid,high]), high:d3.max([low,mid,high]), 
+						avg:Math.round((low+mid+high)/3), color:d3.interpolate("#E9141D", "#FFFFFF")((low/100))}; 
+			}
 		});
-	
 	/* draw states on id #statesvg */	
 	uStates.draw("#statesvg", sampleData, tooltipHtml);
 	
