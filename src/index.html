@@ -74,9 +74,6 @@
   crossorigin="anonymous"
 />
 <script>
-	var year = "2000";
-	document.getElementById("title-container").innerText="US Election Results in "+year; 
-
 	function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
 		return "<h4>"+n+"</h4><table>"+
 			"<tr><td>Low</td><td>"+(d.low)+"</td></tr>"+
@@ -134,7 +131,8 @@
     .tickValues(dataTime)
     .default(new Date(2016, 10, 3)) // the initial year we start at
     .on('onchange', val => {
-      d3.select('p#value-time').text(d3.timeFormat('%Y')(val));
+	  d3.select('p#value-time').text(d3.timeFormat('%Y')(val));
+	  d3.select('#title-container').text("US Election Results in "+d3.timeFormat('%Y')(sliderTime.value()));
     });
 
   var gTime = d3
@@ -148,4 +146,5 @@
   gTime.call(sliderTime);
 
   d3.select('p#value-time').text(d3.timeFormat('%Y')(sliderTime.value()));
+  d3.select('#title-container').text("US Election Results in "+d3.timeFormat('%Y')(sliderTime.value()));
 </script>
