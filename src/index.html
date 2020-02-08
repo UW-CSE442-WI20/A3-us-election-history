@@ -47,7 +47,19 @@
 	#tooltip tr td:nth-child(2){
 		text-align:center;
 	}
+
+	#title-container {
+		display: table;
+		height: 50px;
+		margin: 0 auto;
+		width: 500px;
+		text-align: center;
+		vertical-align: middle;
+	}
 </style>
+<head>
+	<div id="title-container"></div>
+</head>
 <body>
 <div id="tooltip"></div><!-- div to hold tooltip. -->
 <svg width="960" height="600" id="statesvg"></svg> <!-- svg to hold the map. -->
@@ -62,6 +74,8 @@
   crossorigin="anonymous"
 />
 <script>
+	var year = "2000";
+	document.getElementById("title-container").innerText="US Election Results in "+year; 
 
 	function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
 		return "<h4>"+n+"</h4><table>"+
