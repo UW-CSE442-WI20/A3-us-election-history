@@ -110,7 +110,6 @@
 </script>
 
 </body>
-<h2>Time</h2>
 <div class="row align-items-center">
 <div class="col-sm-2"><p id="value-time"></p></div>
 <div class="col-sm"><div id="slider-time"></div></div>
@@ -131,7 +130,7 @@
     .tickValues(dataTime)
     .default(new Date(2016, 10, 3)) // the initial year we start at
     .on('onchange', val => {
-	  d3.select('p#value-time').text(d3.timeFormat('%Y')(val));
+	  // d3.select('p#value-time').text(d3.timeFormat('%Y')(val));
 	  d3.select('#title-container').text("US Election Results in "+d3.timeFormat('%Y')(sliderTime.value()));
     });
 
@@ -145,6 +144,6 @@
 
   gTime.call(sliderTime);
 
-  d3.select('p#value-time').text(d3.timeFormat('%Y')(sliderTime.value()));
+  // d3.select('p#value-time').text(d3.timeFormat('%Y')(sliderTime.value()));
   d3.select('#title-container').text("US Election Results in "+d3.timeFormat('%Y')(sliderTime.value()));
 </script>
