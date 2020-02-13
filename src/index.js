@@ -37,10 +37,6 @@ for (var i = 0; i < obj.length; i++) {
     candidateMap.set(year, partyMap);
 }
 
-console.log(candidateMap);
-
-
-//for(var i = 0; i < obj.)
 
 //console.log(map);
 
