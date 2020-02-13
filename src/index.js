@@ -23,6 +23,26 @@ for (var i = 0; i < obj.length; i++) {
     }
 }
 
+var partyMap = new Map();
+for (var i = 0; i < obj.length; i++) {
+    var year = obj[i].year;
+    if (!map.has(year)) {
+        var arr = [];
+        var percentage = (obj[i].candidatevotes * 1.0 / obj[i].totalvotes);
+        var party = obj[i].party;
+        //arr.push([party, percentage]);
+        partyMap.set(year, arr);
+    } else {
+        var arr = partyMap.get(year);
+        var percentage = (obj[i].candidatevotes * 1.0 / obj[i].totalvotes);
+        var party = obj[i].party;
+        //arr.push([party.percentage]);
+        partyMap.set(year, arr);
+    }
+}
+
+console.log(partyMap);
+
 //console.log(map);
 
 //console.log(map);
