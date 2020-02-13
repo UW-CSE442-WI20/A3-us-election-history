@@ -23,10 +23,12 @@ for (var i = 0; i < obj.length; i++) {
     }
 }
 
-console.log(map);
-var title = document.getElementById("title-container");
-console.log(title.textContent);
+//console.log(map);
 
+//console.log(map);
+//var title = document.getElementById("title-container");
+//console.log(title.textContent);
+//console.log(sliderTime.value().getYear() + 1900);
 function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
     return "<h4>"+n+"</h4><table>"+
         "<tr><td>Low</td><td>"+(d.low)+"</td></tr>"+
@@ -35,34 +37,73 @@ function tooltipHtml(n, d){	/* function to create html content string in tooltip
         "</table>";
 }
 
-var sampleData ={};	/* Sample random data. */	
+const title = document.getElementById('title-container').addEventListener('change', populateMap);
 
-["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
-"ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH", 
-"MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT", 
-"CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN", 
-"WI", "MO", "AR", "OK", "KS", "LS", "VA"]
-    .forEach(function(d){
-        var votes = map.get()
-        if(Math.round(100*Math.random()) > 50) {
-            var low=Math.round(50 + 50*Math.random()), 
-                mid=Math.round(50 + 50*Math.random()), 
-                high=Math.round(50 + 50*Math.random());
-            sampleData[d]={low:d3.min([low,mid,high]), high:d3.max([low,mid,high]), 
-                    avg:Math.round((low+mid+high)/3), color:d3.interpolate("#FFFFFF", "#0015BC")((low/100))}; 
-            //sampleData[d] = {color:d3.interpolate("#FFFFFF", "#0015BC")};
-        } else {
-            var low=Math.round(50*Math.random()), 
-                mid=Math.round(50*Math.random()), 
-                high=Math.round(50*Math.random());
-            sampleData[d]={low:d3.min([low,mid,high]), high:d3.max([low,mid,high]), 
-                    avg:Math.round((low+mid+high)/3), color:d3.interpolate("#E9141D", "#FFFFFF")((low/100))}; 
-        }
-    });
-/* draw states on id #statesvg */	
-uStates.draw("#statesvg", sampleData, tooltipHtml);
+function populateMap() {
 
-d3.select(self.frameElement).style("height", "600px");
+    var sampleData ={};	/* Sample random data. */	
+
+    var currentYear = sliderTime.value().getYear() + 1900;
+    console.log(currentYear);
+    ["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
+    "ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH", 
+    "MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT", 
+    "CO", "NM", "OR", "ND", "SD", "NE", "IA", "MS", "IN", "IL", "MN", 
+    "WI", "MO", "AR", "OK", "KS", "LA", "VA"]
+        .forEach(function(d){
+            var map2 = map.get(currentYear);
+            //console.log(map2);
+            //console.log(map2);
+            //console.log(map2.get(d));
+            var info = map2.get(d);
+            console.log(d);
+            console.log(info);
+            //console.log(d);
+            //console.log(d);
+            //console.log(info);
+            var party = info[2];
+            var votes = info[0];
+            var totalvotes = info[1];
+            var winningPercent = (1.0 * info[0]) / info[1];
+            winningPercent = Math.min(1, 4.25*(winningPercent - .2));
+            console.log(party);
+            if(party == "democrat") {
+                /*var low=Math.round(50 + 50*Math.random()), 
+                    mid=Math.round(50 + 50*Math.random()), 
+                    high=Math.round(50 + 50*Math.random());
+                sampleData[d]={low:d3.min([low,mid,high]), high:d3.max([low,mid,high]), 
+                        avg:Math.round((low+mid+high)/3), color:d3.interpolate("#FFFFFF", "#0015BC")((low/100))}; 
+                */
+                sampleData[d] = {low:info[0], high:2, avg:3, color:d3.interpolate("#FFFFFF", "#0015BC")(winningPercent)};
+            } else {
+                /*var low=Math.round(50*Math.random()), 
+                    mid=Math.round(50*Math.random()), 
+                    high=Math.round(50*Math.random());
+                sampleData[d]={low:d3.min([low,mid,high]), high:d3.max([low,mid,high]), 
+                        avg:Math.round((low+mid+high)/3), color:d3.interpolate("#E9141D", "#FFFFFF")((low/100))}; 
+                */
+                sampleData[d] = {low:info[0], high:2, avg:3, color:d3.interpolate("#FFFFFF", "#E9141D")(winningPercent)};
+            }
+        });
+    /* draw states on id #statesvg */	
+    console.log(sampleData);
+    //setTimeout(function () {
+    uStates.draw("#statesvg", sampleData, tooltipHtml);
+    //}, 1500);
+   // d3.select(self.frameElement).style("height", "600px");
+}
+
+populateMap();
+
+sliderTime.on('onchange', val => {
+    d3.select('#title-container').text("US Election Results in "+d3.timeFormat('%Y')(sliderTime.value()));
+  	  d3.select('#key-title').text("Major Candidates (Winner in Bold)");
+  	  d3.select('#republican-container').text("Hello");
+  	  d3.select('#republican-container').style("font-weight", 900);
+      d3.select('#democrat-container').text("Hillary Clinton");
+      //console.log('made a call to on change, about to populate map');
+	  populateMap();
+});
 
 //console.log(map);
 

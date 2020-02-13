@@ -51,6 +51,7 @@
 	#title-container {
 		display: table;
 		height: 50px;
+		font-size: 40px;
 		margin: 0 auto;
 		width: 500px;
 		text-align: center;
@@ -118,8 +119,6 @@
   <div id="democrat-container"></div>
 </div>
 <script src="https://unpkg.com/d3-simple-slider"></script>
-<script src="./index.js"></script>
-
 <link
   rel="stylesheet"
   href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -170,8 +169,8 @@
 </div>
 <script>
   // Time
-  var dataTime = d3.range(0, 12).map(function(d) {
-    return new Date(1972 + 4 * d, 10, 5);
+  var dataTime = d3.range(0, 11).map(function(d) {
+    return new Date(1976 + 4 * d, 10, 5);
   });
 
   var sliderTime = d3
@@ -182,18 +181,19 @@
     .width(300)
     .tickFormat(d3.timeFormat('%Y'))
     .tickValues(dataTime)
-    .default(new Date(2016, 10, 3)) // the initial year we start at
-    .on('onchange', val => {
+    .default(new Date(2008, 10, 5)) // the initial year we start at
+    /*.on('onchange', val => {
 	  // d3.select('p#value-time').text(d3.timeFormat('%Y')(val));
 	  d3.select('#title-container').text("US Election Results in "+d3.timeFormat('%Y')(sliderTime.value()));
   	  d3.select('#key-title').text("Major Candidates (Winner in Bold)");
-  	  d3.select('#republican-container').text("Donald Trump");
+  	  d3.select('#republican-container').text("Hello");
   	  d3.select('#republican-container').style("font-weight", 900);
 	  d3.select('#democrat-container').text("Hillary Clinton");
-    });
+	  populateMap();
+	})*/;
 
   	var gTime = d3
-    .select('div#slider-time')
+	.select('div#slider-time')
     .append('svg')
     .attr('width', 500)
     .attr('height', 100)
@@ -209,3 +209,5 @@
   	d3.select('#republican-container').style("font-weight", 900);
 	d3.select('#democrat-container').text("Hillary Clinton");
 </script>
+
+<script src="./index.js"></script>
