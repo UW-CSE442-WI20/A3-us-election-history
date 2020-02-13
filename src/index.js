@@ -5,28 +5,36 @@ var obj = require("./election-data.json");
 
 
 var map = new Map();
+var loserMap = new Map();
 var candidateMap = new Map();
 for (var i = 0; i < obj.length; i++) {
     var year = obj[i].year;
     var map2;
     var partyMap;
+    var loserMap2;
     if (!map.has(year)) {
         // insert year with votes data
         partyMap = new Map();
-
+        loserMap2 = new Map();
         map2 = new Map();
     } else {
         map2 = map.get(year); 
-
+        loserMap2 = loserMap.get(year);
         partyMap = candidateMap.get(year);
         partyMap.get(obj[i].party)
     }
     var state = obj[i].state_po;
-    var votes = [obj[i].candidatevotes, obj[i].totalvotes, obj[i].party];
+    var votes = [obj[i].candidatevotes, obj[i].totalvotes, obj[i].party, obj[i].candidate];
     if (!map2.has(state)) {
         map2.set(state, votes);
+    } else if (!loserMap2.has(state)) {
+    	loserMap2.set(state, votes);
     }
+    /*else if (!loserMap2.has(state)) {
+    	loserMap2.set(state, votes)
+    }*/
     map.set(year, map2);
+    loserMap.set(year, loserMap2);
     if(!partyMap.has(obj[i].party)){
     	partyMap.set(obj[i].party, {
     		name: obj[i].candidate,
@@ -46,9 +54,9 @@ for (var i = 0; i < obj.length; i++) {
 //console.log(sliderTime.value().getYear() + 1900);
 function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
     return "<h4>"+n+"</h4><table>"+
-        "<tr><td>Low</td><td>"+(d.low)+"</td></tr>"+
-        "<tr><td>Average</td><td>"+(d.avg)+"</td></tr>"+
-        "<tr><td>High</td><td>"+(d.high)+"</td></tr>"+
+        "<tr><td>Democrat</td><td>"+(d.low)+"</td></tr>"+
+        "<tr><td>Republican</td><td>"+(d.high)+"</td></tr>"+
+        "<tr><td>Other</td><td>"+(d.avg)+"</td></tr>"+
         "</table>";
 }
 
@@ -67,10 +75,12 @@ function populateMap() {
     "WI", "MO", "AR", "OK", "KS", "LA", "VA"]
         .forEach(function(d){
             var map2 = map.get(currentYear);
+            var loserMap2 = loserMap.get(currentYear);
             //console.log(map2);
             //console.log(map2);
             //console.log(map2.get(d));
             var info = map2.get(d);
+            var info2 = loserMap2.get(d);
             //x	console.log(d);
             //console.log(info);
             //console.log(d);
@@ -79,8 +89,12 @@ function populateMap() {
             var party = info[2];
             var votes = info[0];
             var totalvotes = info[1];
-            var winningPercent = (1.0 * info[0]) / info[1];
-            winningPercent = Math.min(1, 4.25*(winningPercent - .2));
+            var loserVotes = info2[0];
+            var winningPercent = (1.0 * votes) / (votes + loserVotes);
+            winningPercent = Math.min(1, 4*(winningPercent - .42));
+            console.log(d);
+            console.log(winningPercent);
+            var otherVotes = totalvotes - votes - loserVotes;
             //console.log(party);
             if(party == "democrat") {
                 /*var low=Math.round(50 + 50*Math.random()), 
@@ -89,7 +103,7 @@ function populateMap() {
                 sampleData[d]={low:d3.min([low,mid,high]), high:d3.max([low,mid,high]), 
                         avg:Math.round((low+mid+high)/3), color:d3.interpolate("#FFFFFF", "#0015BC")((low/100))}; 
                 */
-                sampleData[d] = {low:info[0], high:2, avg:3, color:d3.interpolate("#FFFFFF", "#0015BC")(winningPercent)};
+                sampleData[d] = {low:votes, high:loserVotes, avg:otherVotes, color:d3.interpolate("#FFFFFF", "#0015BC")(winningPercent)};
             } else {
                 /*var low=Math.round(50*Math.random()), 
                     mid=Math.round(50*Math.random()), 
@@ -97,7 +111,7 @@ function populateMap() {
                 sampleData[d]={low:d3.min([low,mid,high]), high:d3.max([low,mid,high]), 
                         avg:Math.round((low+mid+high)/3), color:d3.interpolate("#E9141D", "#FFFFFF")((low/100))}; 
                 */
-                sampleData[d] = {low:info[0], high:2, avg:3, color:d3.interpolate("#FFFFFF", "#E9141D")(winningPercent)};
+                sampleData[d] = {low:loserVotes, high:votes, avg:otherVotes, color:d3.interpolate("#FFFFFF", "#E9141D")(winningPercent)};
             }
         });
     /* draw states on id #statesvg */	
