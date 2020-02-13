@@ -92,8 +92,7 @@ function populateMap() {
             var loserVotes = info2[0];
             var winningPercent = (1.0 * votes) / (votes + loserVotes);
             winningPercent = Math.min(1, 4*(winningPercent - .42));
-            console.log(d);
-            console.log(winningPercent);
+            // winning percent is simply a ratio to decide coloring, not actual winning percent
             var otherVotes = totalvotes - votes - loserVotes;
             //console.log(party);
             if(party == "democrat") {

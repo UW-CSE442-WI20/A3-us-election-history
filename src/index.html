@@ -104,6 +104,16 @@
 	    font-weight: 200;  
 	}
 
+	#writeup {
+		display: table;
+		height: 40px;
+		font-size: 10px;
+		margin: 0 auto;
+		width: 100px;
+		text-align: center;
+		vertical-align: middle;
+	}
+
 </style>
 <head>
 	<div id="title-container"></div>
@@ -167,6 +177,7 @@
 <div class="col-sm-2"><p id="value-time"></p></div>
 <div class="col-sm"><div id="slider-time"></div></div>
 </div>
+<button id='writeup'></button>
 <script>
   // Time
   var dataTime = d3.range(0, 11).map(function(d) {
@@ -205,9 +216,11 @@
   	// d3.select('p#value-time').text(d3.timeFormat('%Y')(sliderTime.value()));
   	d3.select('#title-container').text("US Election Results (Popular Vote) in "+d3.timeFormat('%Y')(sliderTime.value()));
   	d3.select('#key-title').text("Major Candidates (Winner in Bold)");
+  	d3.select('#writeup').text("Writeup").on("click", function() {
+				window.location.href = "http://www.google.com";
+			});;
  //  	d3.select('#republican-container').text("Donald Trump");
  //  	d3.select('#republican-container').style("font-weight", 900);
 	// d3.select('#democrat-container').text("Hillary Clinton");
 </script>
-
 <script src="./index.js"></script>
