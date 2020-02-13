@@ -130,13 +130,22 @@ function sliderChange(val){
   	  d3.select('#republican-container').text(candidateMap.get(currentYear).get("republican").name);
       d3.select('#democrat-container').text(candidateMap.get(currentYear).get("democrat").name);
       //console.log('made a call to on change, about to populate map');
-      if(candidateMap.get(currentYear).get("republican").votes > candidateMap.get(currentYear).get("democrat").votes){
+      // lost popular vote ut won election
+	  if (currentYear == 2000 || currentYear == 2016) {
+			d3.select('#republican-container').text(candidateMap.get(currentYear).get("republican").name + "*");
+			d3.select('#republican-container').style("font-weight", 900);
+      		d3.select('#democrat-container').style("font-weight", 100);
+      		d3.select('#asterisk-container').text('* = Lost Popular Vote');
+	  }
+      else if(candidateMap.get(currentYear).get("republican").votes > candidateMap.get(currentYear).get("democrat").votes){
       		d3.select('#republican-container').style("font-weight", 900);
       		d3.select('#democrat-container').style("font-weight", 100);
+      		d3.select('#asterisk-container').text('');
 
       } else {
       		d3.select('#democrat-container').style("font-weight", 900);
       		d3.select('#republican-container').style("font-weight", 100);
+      		d3.select('#asterisk-container').text('');
       }
 	  populateMap();
 }

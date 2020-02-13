@@ -103,6 +103,17 @@
 	    vertical-align: middle;
 	    font-weight: 200;  
 	}
+	#asterisk-container {
+	    display: table;
+	    background-color: 'red';
+	    height: 25px;
+	    font-size: 24px;
+	    margin: 0 auto;
+	    width: 300px;
+	    text-align: center;
+	    vertical-align: middle;
+	    font-weight: 200;  
+	}
 
 	#writeup {
 		display: table;
@@ -127,6 +138,7 @@
   <div id="key-title"></div>
   <div id="republican-container"></div>
   <div id="democrat-container"></div>
+  <div id="asterisk-container"></div>
 </div>
 <script src="https://unpkg.com/d3-simple-slider"></script>
 <link
@@ -192,7 +204,7 @@
     .width(300)
     .tickFormat(d3.timeFormat('%Y'))
     .tickValues(dataTime)
-    .default(new Date(2008, 10, 5)) // the initial year we start at
+    .default(new Date(2016, 10, 5)) // the initial year we start at
     /*.on('onchange', val => {
 	  // d3.select('p#value-time').text(d3.timeFormat('%Y')(val));
 	  d3.select('#title-container').text("US Election Results in "+d3.timeFormat('%Y')(sliderTime.value()));
@@ -217,7 +229,7 @@
   	d3.select('#title-container').text("US Election Results (Popular Vote) in "+d3.timeFormat('%Y')(sliderTime.value()));
   	d3.select('#key-title').text("Major Candidates (Winner in Bold)");
   	d3.select('#writeup').text("Writeup").on("click", function() {
-				window.location.href = "https://github.com/UW-CSE442-WI20/A3-us-election-history/blob/master/WRITEUP.txt";
+				window.location.href = "https://raw.githubusercontent.com/UW-CSE442-WI20/A3-us-election-history/master/WRITEUP.txt";
 			});;
  //  	d3.select('#republican-container').text("Donald Trump");
  //  	d3.select('#republican-container').style("font-weight", 900);
