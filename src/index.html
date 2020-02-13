@@ -66,6 +66,7 @@
 <script src="uStates.js"></script> <!-- creates uStates. -->
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="https://unpkg.com/d3-simple-slider"></script>
+<script src="./index.js"></script>
 
 <link
   rel="stylesheet"
@@ -74,7 +75,7 @@
   crossorigin="anonymous"
 />
 <script>
-	function tooltipHtml(n, d){	/* function to create html content string in tooltip div. */
+	/*function tooltipHtml(n, d){	
 		return "<h4>"+n+"</h4><table>"+
 			"<tr><td>Low</td><td>"+(d.low)+"</td></tr>"+
 			"<tr><td>Average</td><td>"+(d.avg)+"</td></tr>"+
@@ -82,7 +83,8 @@
 			"</table>";
 	}
 	
-	var sampleData ={};	/* Sample random data. */	
+	var sampleData ={};	
+
 	["HI", "AK", "FL", "SC", "GA", "AL", "NC", "TN", "RI", "CT", "MA",
 	"ME", "NH", "VT", "NY", "NJ", "PA", "DE", "MD", "WV", "KY", "OH", 
 	"MI", "WY", "MT", "ID", "WA", "DC", "TX", "CA", "AZ", "NV", "UT", 
@@ -103,10 +105,10 @@
 						avg:Math.round((low+mid+high)/3), color:d3.interpolate("#E9141D", "#FFFFFF")((low/100))}; 
 			}
 		});
-	/* draw states on id #statesvg */	
+	
 	uStates.draw("#statesvg", sampleData, tooltipHtml);
 	
-	d3.select(self.frameElement).style("height", "600px"); 
+	d3.select(self.frameElement).style("height", "600px");*/
 </script>
 
 </body>
