@@ -3,25 +3,44 @@ var obj = require("./election-data.json");
 
 //console.log(obj.length);
 
+
 var map = new Map();
+var candidateMap = new Map();
 for (var i = 0; i < obj.length; i++) {
     var year = obj[i].year;
+    var map2;
+    var partyMap;
     if (!map.has(year)) {
         // insert year with votes data
-        var map2 = new Map();
-        var state = obj[i].state_po;
-        var votes = [obj[i].candidatevotes, obj[i].totalvotes, obj[i].party];
-        map2.set(state, votes)
-        map.set(year, map2);
+        partyMap = new Map();
+
+        map2 = new Map();
     } else {
-        var map2 = map.get(year);
-        var state = obj[i].state_po;
-        var votes = [obj[i].candidatevotes, obj[i].totalvotes, obj[i].party];
-        if (!map2.has(state)) {
-            map2.set(state, votes);
-        }
+        map2 = map.get(year); 
+
+        partyMap = candidateMap.get(year);
+        partyMap.get(obj[i].party)
     }
+    var state = obj[i].state_po;
+    var votes = [obj[i].candidatevotes, obj[i].totalvotes, obj[i].party];
+    if (!map2.has(state)) {
+        map2.set(state, votes);
+    }
+    map.set(year, map2);
+    if(!partyMap.has(obj[i].party)){
+    	partyMap.set(obj[i].party, {
+    		name: obj[i].candidate,
+    		votes: 0
+    	});
+    }
+    partyMap.get(obj[i].party).votes += obj[i].candidatevotes;
+    candidateMap.set(year, partyMap);
 }
+
+console.log(candidateMap);
+
+
+//for(var i = 0; i < obj.)
 
 //console.log(map);
 
@@ -56,8 +75,8 @@ function populateMap() {
             //console.log(map2);
             //console.log(map2.get(d));
             var info = map2.get(d);
-            console.log(d);
-            console.log(info);
+            //x	console.log(d);
+            //console.log(info);
             //console.log(d);
             //console.log(d);
             //console.log(info);
@@ -66,7 +85,7 @@ function populateMap() {
             var totalvotes = info[1];
             var winningPercent = (1.0 * info[0]) / info[1];
             winningPercent = Math.min(1, 4.25*(winningPercent - .2));
-            console.log(party);
+            //console.log(party);
             if(party == "democrat") {
                 /*var low=Math.round(50 + 50*Math.random()), 
                     mid=Math.round(50 + 50*Math.random()), 
@@ -86,7 +105,7 @@ function populateMap() {
             }
         });
     /* draw states on id #statesvg */	
-    console.log(sampleData);
+    //console.log(sampleData);
     //setTimeout(function () {
     uStates.draw("#statesvg", sampleData, tooltipHtml);
     //}, 1500);
@@ -95,15 +114,26 @@ function populateMap() {
 
 populateMap();
 
-sliderTime.on('onchange', val => {
+function sliderChange(val){
     d3.select('#title-container').text("US Election Results in "+d3.timeFormat('%Y')(sliderTime.value()));
+    var currentYear = sliderTime.value().getYear() + 1900;
   	  d3.select('#key-title').text("Major Candidates (Winner in Bold)");
-  	  d3.select('#republican-container').text("Hello");
-  	  d3.select('#republican-container').style("font-weight", 900);
-      d3.select('#democrat-container').text("Hillary Clinton");
+  	  d3.select('#republican-container').text(candidateMap.get(currentYear).get("republican").name);
+      d3.select('#democrat-container').text(candidateMap.get(currentYear).get("democrat").name);
       //console.log('made a call to on change, about to populate map');
+      if(candidateMap.get(currentYear).get("republican").votes > candidateMap.get(currentYear).get("democrat").votes){
+      		d3.select('#republican-container').style("font-weight", 900);
+      		d3.select('#democrat-container').style("font-weight", 100);
+
+      } else {
+      		d3.select('#democrat-container').style("font-weight", 900);
+      		d3.select('#republican-container').style("font-weight", 100);
+      }
 	  populateMap();
-});
+}
+
+sliderTime.on('onchange', sliderChange);
+sliderChange();
 
 //console.log(map);
 
