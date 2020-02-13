@@ -226,7 +226,7 @@
   	gTime.call(sliderTime);
 
   	// d3.select('p#value-time').text(d3.timeFormat('%Y')(sliderTime.value()));
-  	d3.select('#title-container').text("US Election Results (Popular Vote) in "+d3.timeFormat('%Y')(sliderTime.value()));
+  	d3.select('#title-container').text("US Election Results in "+d3.timeFormat('%Y')(sliderTime.value()));
   	d3.select('#key-title').text("Major Candidates (Winner in Bold)");
   	d3.select('#writeup').text("Writeup").on("click", function() {
 				window.location.href = "https://raw.githubusercontent.com/UW-CSE442-WI20/A3-us-election-history/master/WRITEUP.txt";
